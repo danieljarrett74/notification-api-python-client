@@ -60,9 +60,12 @@ class ApiClient(object):
     }
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None):
+                 cookie=None, endpoint=None):
+        if endpoint is None:
+            raise Exception ("'endpoint' must not be None")
         if configuration is None:
             configuration = Configuration()
+            configuration.host = endpoint
         self.configuration = configuration
 
         self.pool = ThreadPool()

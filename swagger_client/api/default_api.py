@@ -27,9 +27,10 @@ class DefaultApi(object):
     Ref: https://github.com/swagger-api/swagger-codegen
     """
 
-    def __init__(self, api_client=None):
-        if api_client is None:
-            api_client = ApiClient()
+    def __init__(self,  endpoint=None):
+        if endpoint is None:
+            raise Exception("'endpoint' must be set.")
+        api_client = ApiClient(endpoint=endpoint)
         self.api_client = api_client
 
     def delete_sender(self, sender_id, **kwargs):  # noqa: E501

@@ -46,7 +46,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
     def __init__(self):
         """Constructor"""
         # Default Base url
-        self.host = "https://${data.aws_region.current.name}.execute-api.${data.aws_region.current.name}.amazonaws.com/{basePath}"
+        self.host = None
         # Temp file folder for downloading files
         self.temp_folder_path = None
 
