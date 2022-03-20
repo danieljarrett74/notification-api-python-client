@@ -59,7 +59,7 @@ class ApiClient(object):
         'object': object,
     }
 
-    def __init__(self, endpoint, configuration=None, header_name=None, header_value=None,
+    def __init__(self, endpoint=None, configuration=None, header_name=None, header_value=None,
                  cookie=None):
         if endpoint is None:
             raise Exception ("'endpoint' must not be None")
