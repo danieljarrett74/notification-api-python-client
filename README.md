@@ -1,5 +1,5 @@
-# notifications-api-1234-client
-A client library for accessing notifications-api-1234
+# notification-api-client
+A client library for accessing notifications api
 
 ## Usage
 First, create a client:
