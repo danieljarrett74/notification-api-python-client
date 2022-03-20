@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='notification-api-client',
+    name='notification_api_client',
     version='0.1',
-    packages=['client'],
+    packages=['notification_api_client'],
     license='MIT',
     description='Notification API Client',
     long_description=open('README.md').read(),
