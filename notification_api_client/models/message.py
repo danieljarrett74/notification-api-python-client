@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
-from ..models.substitution import Substitution
+from ..models.message_substitutions import MessageSubstitutions
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="Message")
@@ -15,26 +15,22 @@ class Message:
         template_id (str):
         recipient_email (str):
         sender_id (Union[Unset, str]):
-        substitutions (Union[Unset, List[Substitution]]):
+        substitutions (Union[Unset, MessageSubstitutions]):
     """
 
     template_id: str
     recipient_email: str
     sender_id: Union[Unset, str] = UNSET
-    substitutions: Union[Unset, List[Substitution]] = UNSET
+    substitutions: Union[Unset, MessageSubstitutions] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         template_id = self.template_id
         recipient_email = self.recipient_email
         sender_id = self.sender_id
-        substitutions: Union[Unset, List[Dict[str, Any]]] = UNSET
+        substitutions: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.substitutions, Unset):
-            substitutions = []
-            for substitutions_item_data in self.substitutions:
-                substitutions_item = substitutions_item_data.to_dict()
-
-                substitutions.append(substitutions_item)
+            substitutions = self.substitutions.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -60,12 +56,12 @@ class Message:
 
         sender_id = d.pop("SenderId", UNSET)
 
-        substitutions = []
         _substitutions = d.pop("Substitutions", UNSET)
-        for substitutions_item_data in _substitutions or []:
-            substitutions_item = Substitution.from_dict(substitutions_item_data)
-
-            substitutions.append(substitutions_item)
+        substitutions: Union[Unset, MessageSubstitutions]
+        if isinstance(_substitutions, Unset):
+            substitutions = UNSET
+        else:
+            substitutions = MessageSubstitutions.from_dict(_substitutions)
 
         message = cls(
             template_id=template_id,
