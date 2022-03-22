@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional, Union
 
 import httpx
 
-from ...client import Client
+from ...client import Client, AwsSignedClient
 from ...models.delete_sender_template_response import DeleteSenderTemplateResponse
 from ...models.error import Error
 from ...types import Response
@@ -18,7 +18,13 @@ def _get_kwargs(
         client.base_url, senderId=sender_id, templateId=template_id
     )
 
-    headers: Dict[str, str] = client.get_headers()
+    if not isinstance(client, AwsSignedClient):
+        headers: Dict[str, str] = client.get_headers()
+    else: 
+        headers: Dict[str, str] = client.get_signed_headers(
+            method="DELETE",
+            url=url
+        )
     cookies: Dict[str, Any] = client.get_cookies()
 
     return {

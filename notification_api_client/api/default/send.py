@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional, Union
 
 import httpx
-
+import json 
 from ...client import Client, AwsSignedClient
 from ...models.error import Error
 from ...models.message import Message
@@ -16,10 +16,15 @@ def _get_kwargs(
 ) -> Dict[str, Any]:
     url = "{}/send".format(client.base_url)
 
+    
     if not isinstance(client, AwsSignedClient):
         headers: Dict[str, str] = client.get_headers()
     else: 
-        headers: Dict[str, str] = client.get_signed_headers(method="POST")
+        headers: Dict[str, str] = client.get_signed_headers(
+            method="POST",
+            url=url, 
+            payload=json.dumps(json_body.to_dict())
+        )
     cookies: Dict[str, Any] = client.get_cookies()
 
     json_json_body = json_body.to_dict()

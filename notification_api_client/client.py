@@ -1,7 +1,8 @@
 import ssl
 from typing import Dict, Union
 from urllib.parse import urlparse
-import aws_signing
+from .aws_signing import get_auth_header
+
 
 import attr
 
@@ -39,10 +40,6 @@ class Client:
         return attr.evolve(self, timeout=timeout)
 
 
-    def get_host(self) -> str:
-        return urlparse(self.base_url).netloc
-
-
 @attr.s(auto_attribs=True)
 class AuthenticatedClient(Client):
     """A Client which has been authenticated for use on secured endpoints"""
@@ -60,8 +57,17 @@ class AwsSignedClient(Client):
 
     region: str
 
-    def get_signing_headers(self, method:str, request_parameters:str = "", payload:str = None) -> Dict[str, str]:
+    def get_signed_headers(self, method:str, url:str, payload:str = None) -> Dict[str, str]:
         """Generate AWS Signed Authorization Header"""
-
-        header = aws_signing.get_auth_header(method=method,host=self.get_host, region=self.region, request_parameters=request_parameters, payload=payload)
+        
+            
+        header = get_auth_header(
+            method=method,
+            host=urlparse(url).netloc,
+            region=self.region,
+            request_parameters=urlparse(url).query,
+            payload=payload,
+            canonical_uri=urlparse(url).path
+        )
         return header | self.headers
+
