@@ -23,7 +23,7 @@
 # This version makes a GET request and passes the signature
 # in the Authorization header.
 import sys, os, base64, datetime, hashlib, hmac 
-
+import boto3
 
 
 # Key derivation functions. See:
