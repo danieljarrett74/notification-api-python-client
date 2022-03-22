@@ -18,8 +18,11 @@ def get_auth_header(method:str, host:str, region:str, request_parameters:str, ca
     session = boto3.Session()
     credentials = session.get_credentials()
     current_credentials = credentials.get_frozen_credentials()
+    
     access_key = current_credentials.access_key
     secret_key = current_credentials.secret_key
+    print("current credentials access_key: %s" % access_key)
+    print("current credentials secret_key: %s" % secret_key)
 
     t = datetime.datetime.utcnow()
     amzdate = t.strftime('%Y%m%dT%H%M%SZ')
