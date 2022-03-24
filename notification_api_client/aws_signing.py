@@ -21,10 +21,11 @@ def get_auth_header(method:str, host:str, region:str, request_parameters:str, ca
     
     access_key = current_credentials.access_key
     secret_key = current_credentials.secret_key
-    token = current_credentials.token
-    print("current credentials access_key: %s" % access_key)
-    print("current credentials secret_key: %s" % secret_key)
-    print("current credentials token: %s" % token)
+    session_token = current_credentials.token
+    # print("current credentials access_key: %s" % access_key)
+    # print("current credentials secret_key: %s" % secret_key)
+    # print("current credentials token: %s" % session_token)
+
 
     t = datetime.datetime.utcnow()
     amzdate = t.strftime('%Y%m%dT%H%M%SZ')
@@ -51,5 +52,7 @@ def get_auth_header(method:str, host:str, region:str, request_parameters:str, ca
     print("string_to_sign:%s" % string_to_sign)
 
     print("payload:%s" % payload)
-
-    return {'x-amz-date':amzdate, 'Authorization':authorization_header}
+    if session_token is None:
+        return {'x-amz-date':amzdate, 'Authorization':authorization_header}
+    else:
+        return {'x-amz-security-token': session_token, 'x-amz-date':amzdate, 'Authorization':authorization_header}
