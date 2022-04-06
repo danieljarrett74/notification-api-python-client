@@ -1,4 +1,5 @@
 from typing import Any, Dict, Optional, Union
+import json 
 
 import httpx
 
@@ -21,7 +22,8 @@ def _get_kwargs(
     else: 
         headers: Dict[str, str] = client.get_signed_headers(
             method="POST",
-            url=url
+            url=url,
+            payload=json.dumps(json_body.to_dict())
         )
     cookies: Dict[str, Any] = client.get_cookies()
 
